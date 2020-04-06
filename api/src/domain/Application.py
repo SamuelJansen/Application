@@ -3,8 +3,6 @@ import pygame as pg
 import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer
 import applicationFunction, setting, fatherFunction, objectFunction, imageFunction
 
-import CourseRepository
-
 import time as now
 import os
 import ctypes
@@ -36,7 +34,7 @@ class Application:
         self.pathMannanger = pathMannanger
         self.extension = self.pathMannanger.getExtension()
 
-        self.repository = CourseRepository.CourseRepository(self)
+        self.repository = None ###- CourseRepository.CourseRepository(self)
 
         self.name = name
         self.type = objectFunction.Type.APPLICATION
