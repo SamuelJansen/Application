@@ -102,8 +102,7 @@ class Object:
         self.father.handler.addObject(self)
 
         ###- print(f'{self.name} created, father = {self.father.name}, tutor = {self.tutor.name}, type = {self.type}, blit order = {self.blitOrder}')
-        ###-
-        print(f'{self.name} created, father = {self.father.name}, tutor = {self.tutor.name}, class = {self.__class__.__name__}, surfaceColor = {surfaceColor}')
+        ###- print(f'{self.name} created, father = {self.father.name}, tutor = {self.tutor.name}, class = {self.__class__.__name__}, surfaceColor = {surfaceColor}')
 
     def newImage(self,noImage):
         self.noImage = noImage

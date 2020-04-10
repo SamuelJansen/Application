@@ -7,7 +7,7 @@ print('Mouse library imported')
 
 class Mouse:
 
-    ERROR_IN_HOVER_EVENT_DETECTION = 'Eror in hover event detection'
+    ERROR_IN_HOVER_EVENT_DETECTION = 'Error in hover event detection'
 
     def update(self):
         self.updatePosition()
@@ -35,6 +35,8 @@ class Mouse:
         self.hovering = None
         self.objectHover = None
         self.lastObjectHover = None
+
+        self.printStatus = False
 
         self.updatePosition()
 
@@ -147,29 +149,37 @@ class Mouse:
 
     def resolveClick(self):
         if self.state==mouseFunction.State.LEFT_CLICK_DOWN or self.state==mouseFunction.State.LEFT_CLICK_UP :
-            # print(f'Mouse.resolveClick(): Mouse.state = {self.state}, Mouse.scripArea = {self.scripArea}')
+            if self.printStatus :
+                # print(f'Mouse.resolveClick(): Mouse.state = {self.state}, Mouse.scripArea = {self.scripArea}')
+                pass
             if self.objectHit :
-                # print(f'Mouse.resolveClick():   Mouse.objectHit = {self.objectHit.name}')
-                # try :
-                #     print(f'                        Mouse.objectHitDown = {self.objectHitDown.name}')
-                # except : pass
-                # try :
-                #     print(f'                        Mouse.objectHitUp = {self.objectHitUp.name}')
-                # except : pass
-                print()
-                print('============================================================================================================================================================')
+                if self.printStatus :
+                    # print(f'Mouse.resolveClick():   Mouse.objectHit = {self.objectHit.name}')
+                    # try :
+                    #     print(f'                        Mouse.objectHitDown = {self.objectHitDown.name}')
+                    # except : pass
+                    # try :
+                    #     print(f'                        Mouse.objectHitUp = {self.objectHitUp.name}')
+                    # except : pass
+                    pass
+                if self.printStatus :
+                    print()
+                    print('============================================================================================================================================================')
+                    pass
                 ClickEvent.ClickEvent(self)
-                # printMemoryOptimizationTree(self)
-                print('============================================================================================================================================================')
-                print()
-                # printAllObjectEvents(self.application)
-                # printAllObjectNames(self.application)
-                # if self.application.session :
-                #     print(f'Session.itemNames = {self.application.session.itemNames}')
-                # try :
-                #     print(f'Application focus name = {self.application.focus.name}')
-                # except : pass
-                # updateAllObjectsNextFrame(self.application)
+                if self.printStatus :
+                    # printMemoryOptimizationTree(self)
+                    print()
+                    print('============================================================================================================================================================')
+                    # printAllObjectEvents(self.application)
+                    # printAllObjectNames(self.application)
+                    # if self.application.session :
+                    #     print(f'Session.itemNames = {self.application.session.itemNames}')
+                    # try :
+                    #     print(f'Application focus name = {self.application.focus.name}')
+                    # except : pass
+                    # updateAllObjectsNextFrame(self.application)
+                    pass
             else :
                 FalseClickEvent.FalseClickEvent(self.application)
 

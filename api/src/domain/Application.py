@@ -1,6 +1,6 @@
 import pygame as pg
 
-import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer
+import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer, CourseRepository
 import applicationFunction, setting, fatherFunction, objectFunction, imageFunction
 
 import time as now
@@ -34,7 +34,7 @@ class Application:
         self.pathMannanger = pathMannanger
         self.extension = self.pathMannanger.getExtension()
 
-        self.repository = None ###- CourseRepository.CourseRepository(self)
+        self.repository = CourseRepository.CourseRepository(self)
 
         self.name = name
         self.type = objectFunction.Type.APPLICATION
@@ -135,9 +135,9 @@ class Application:
         self.soundPath = soundPath
         self.settingsPath = settingsPath
         if not self.imagePath :
-            self.imagePath = f'{self.pathMannanger.getApiModulePath(self.name)}resourse\\image\\'
+            self.imagePath = f'{self.pathMannanger.getApiPath(self.name)}resourse\\image\\'
         if not self.soundPath :
-            self.soundPath = f'{self.pathMannanger.getApiModulePath(self.name)}resourse\\sound\\'
+            self.soundPath = f'{self.pathMannanger.getApiPath(self.name)}resourse\\sound\\'
         if not self.settingsPath :
             self.settingsPath = f'resourse\\{self.name}.{self.extension}'
 
