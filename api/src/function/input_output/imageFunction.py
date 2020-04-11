@@ -1,7 +1,7 @@
 import pygame as pg
 import os
 
-import objectFunction, setting
+import objectFunction, settingFunction
 
 imageLibrary = {}
 def getImage(path,size,aplication,
@@ -40,7 +40,7 @@ def getImagePath(object):
     return f'{object.application.imagePath}{object.type}//'
 
 def getImageFileNames(imagesPath,imageExtension) :
-    return setting.getFileNames(imagesPath,imageExtension)
+    return settingFunction.getFileNames(imagesPath,imageExtension)
 
 def getNoImage(size,aplication,
     color = objectFunction.Attribute.NO_IMAGE_COLOR

@@ -5,6 +5,15 @@ class Attribute:
     ICON = 'icon'
     IMAGE_EXTENSION = 'png'
 
+    DEFAULT = {
+        'position' : [0,0],
+        'size' : ['FULL_SCREEN','FULL_SCREEN'],
+        'scaleRange' : 1000,
+        'fps' : 30,
+        'aps' : 60,
+        'color' : {'white':(255,255,255)}
+    }
+
 
 class Priority:
 

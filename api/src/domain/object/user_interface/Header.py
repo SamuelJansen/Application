@@ -1,11 +1,11 @@
 import UserInterface, Button
-import surfaceFunction, applicationFunction
+import surfaceFunction, applicationFunction, headerFunction
 
 print('Header library imported')
 
 class Header(UserInterface.UserInterface):
 
-    def __init__(self,name,position,size,father,
+    def __init__(self,position,size,father,
         items = None,
         itemSize = None,
         itemsImagePath = None,
@@ -16,6 +16,7 @@ class Header(UserInterface.UserInterface):
         padding = None
     ):
 
+        name = headerFunction.Attribute.NAME
         padding,originalPadding = surfaceFunction.stashPadding(padding,father)
 
         UserInterface.UserInterface.__init__(self,name,position,size,father,
@@ -28,6 +29,10 @@ class Header(UserInterface.UserInterface):
         self.padding = originalPadding
 
         self.items = items
+        for item in self.items :
+            if item.priority == applicationFunction.Priority.NO_PRIORITY :
+                item.priority = applicationFunction.Priority.HIGHT
+
         itemFather = self
         self.itemSize = surfaceFunction.parseSize(itemSize,itemFather)
         self.initialChildPosition = [0,0]

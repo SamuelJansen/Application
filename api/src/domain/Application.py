@@ -1,7 +1,7 @@
 import pygame as pg
 
-import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer, CourseRepository
-import applicationFunction, setting, fatherFunction, objectFunction, imageFunction
+import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer, CourseRepository, Keyboard
+import applicationFunction, settingFunction, fatherFunction, objectFunction, imageFunction
 
 import time as now
 import os
@@ -20,11 +20,14 @@ class Application:
             pass
         self.update()
 
-    def __init__(
-        self,name,fps,aps,colors,pathMannanger,
-        position = [0,0],
+    def __init__(self,pathMannanger,repository,
+        position = None,
+        size = None,
+        scaleRange = None,
+        fps = None,
+        aps = None,
+        color = None,
         floor = True,
-        scaleRange = 1000,
         imagePath = None,
         soundPath = None,
         settingsPath = None
@@ -33,30 +36,50 @@ class Application:
         self.application = self.tutor = self.father = fatherFunction.absoluteFather(self)
         self.pathMannanger = pathMannanger
         self.extension = self.pathMannanger.getExtension()
-
-        self.repository = CourseRepository.CourseRepository(self)
-
-        self.name = name
+        self.name = self.pathMannanger.apiName
+        self.repository = repository.Repository(self)
         self.type = objectFunction.Type.APPLICATION
 
         self.getPaths(imagePath,soundPath,settingsPath)
 
-        self.color = colors
+        possibleSize = self.getSize(settingFunction.getSettings(self.settingsPath,'size'))
+        possiblePosition = settingFunction.getSettings(self.settingsPath,'position')
+        possibleScaleRange = settingFunction.getSettings(self.settingsPath,'scale-range')
+        possibleFps = settingFunction.getSettings(self.settingsPath,'fps')
+        possibleAps = settingFunction.getSettings(self.settingsPath,'aps')
+        possibleColor = settingFunction.getSettings(self.settingsPath,'color')
 
-        self.fps = fps
-        self.aps = aps
-        self.scaleRange = scaleRange
+        if position : self.position = position
+        elif possiblePosition : self.position = possiblePosition
+        else : self.position = applicationFunction.Attribute.DEFAULT['position']
 
-        self.settings = setting.getSettings(self.settingsPath)
-        self.size = setting.getAplicationSize(self)
+        if size : self.size = size
+        elif possibleSize : self.size = possibleSize
+        else : self.size = applicationFunction.Attribute.DEFAULT['size']
 
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (position[0],position[1])
+        if scaleRange : self.scaleRange = scaleRange
+        elif possibleScaleRange : self.scaleRange = possibleScaleRange
+        else : self.scaleRange = applicationFunction.Attribute.DEFAULT['scaleRange']
+
+        if fps : self.fps = fps
+        elif possibleFps : self.fps = possibleFps
+        else : self.fps = applicationFunction.Attribute.DEFAULT['fps']
+
+        if aps : self.aps = aps
+        elif possibleAps : self.aps = possibleAps
+        else : self.aps = applicationFunction.Attribute.DEFAULT['aps']
+
+        if color : self.color = color
+        elif possibleColor : self.color = possibleColor
+        else : self.color = applicationFunction.Attribute.DEFAULT['color']
+
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.position[0],self.position[1])
         self.localMachinePosition = ctypes.windll.user32.SetWindowPos
         pg.mixer.pre_init(44100,16,32,0)
         pg.init()
         pg.display.set_caption(self.name)
 
-        self.setPosition(position)
+        self.setPosition(self.position)
 
         self.devScreenSize = (1000,564)
         self.devResize = [self.devScreenSize[0]/self.size[0],self.devScreenSize[1]/self.size[1]]
@@ -105,6 +128,14 @@ class Application:
 
         self.running = False
 
+    def getSize(self,size):
+        if ['FULL_SCREEN','FULL_SCREEN'] == size :
+            temporaryScreen = pg.display.set_mode([0,0],pg.FULLSCREEN)
+            screenSizeX, screenSizeY = temporaryScreen.get_size()
+            return [screenSizeX, screenSizeY]
+        else :
+            return size
+
     def initializeObjectInterface(self):
         self.rect = pg.Rect(self.position[0],self.position[1],self.size[0],self.size[1])
         self.image = []
@@ -135,11 +166,11 @@ class Application:
         self.soundPath = soundPath
         self.settingsPath = settingsPath
         if not self.imagePath :
-            self.imagePath = f'{self.pathMannanger.getApiPath(self.name)}resourse\\image\\'
+            self.imagePath = f'{self.pathMannanger.getApiPath(self.name)}resource\\image\\'
         if not self.soundPath :
-            self.soundPath = f'{self.pathMannanger.getApiPath(self.name)}resourse\\sound\\'
+            self.soundPath = f'{self.pathMannanger.getApiPath(self.name)}resource\\sound\\'
         if not self.settingsPath :
-            self.settingsPath = f'resourse\\{self.name}.{self.extension}'
+            self.settingsPath = f'{self.pathMannanger.getApiPath(self.name)}resource\\{self.name}.{self.extension}'
 
     def getFloor(self):
         if self.floor :
@@ -173,6 +204,7 @@ class Application:
         self.updateScreen()
 
         self.mouse = Mouse.Mouse(self)
+        self.keyboard = Keyboard.Keyboard(self)
         self.running = True
 
     def optimizeMemory(self):
@@ -209,7 +241,7 @@ class Application:
     def updatePosition(self,position):
         self.setPosition(position)
 
-    def run(self,arrow):
+    def run(self):
         self.initialize()
 
         while self.running :
@@ -217,18 +249,8 @@ class Application:
                 for pgEvent in pg.event.get() :
                     if pgEvent.type == pg.QUIT :
                         self.running = False
-                    arrow.newEvent(pgEvent)
                     self.mouse.handleEvent(pgEvent)
-                    """
-                    if a.arrows[1]==-1 :
-                        gl.playSound(upSound)
-                    if a.arrows[1]==1 :
-                        gl.playSound(downSound)
-                    if a.arrows[0]==1 :
-                        gl.playMusic('Sounds/TakeaWalk.mp3')
-                    if a.arrows[0]==-1 :
-                        gl.playSound(leftSound)
-                    #"""
+                    self.keyboard.handleEvent(pgEvent)
 
             self.update()
             # forceObjectsUpdate(self)

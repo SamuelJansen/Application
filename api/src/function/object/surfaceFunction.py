@@ -7,7 +7,7 @@ class Attribute:
 
 class Types :
 
-    SQUARE = 'SQUARE'
+    SQUARE = 'square'
 
 
 def parseSize(size,father) :
