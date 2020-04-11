@@ -41,6 +41,7 @@ class Surface(Object.Object):
             text = text,
             textPosition = textPosition,
             fontSize = fontSize,
+            padding = padding,
             onLeftClick = onLeftClick,
             onMenuResolve = onMenuResolve,
             onHovering = onHovering,

@@ -14,6 +14,7 @@ class Object:
             text = None,
             textPosition = None,
             fontSize = None,
+            padding = None,
             collidableSize = None,
             onLeftClick = None,
             onMenuResolve = None,
@@ -81,7 +82,9 @@ class Object:
 
         self.text = text
         self.fontSize = fontSize
-        self.textPosition = textFunction.parsePosition(textPosition,self)
+        if not padding :
+            padding = [0,0]
+        self.textPosition = textFunction.parsePosition(textPosition,self,padding=padding)
         self.textList = []
         self.textPositionList = []
         self.font = None

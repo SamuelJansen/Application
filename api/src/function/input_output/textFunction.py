@@ -5,6 +5,7 @@ class Attribute:
     NAME = 'Text'
     STANDARD_LINE_SPACE = 2
     CENTER = 'center'
+    PADDED = 'padded'
     WORD_WIDTH = 'wordWidth'
 
 
@@ -27,8 +28,11 @@ def calculateFontSize(surfaceOriginalSize,padding,
 ) :
     return surfaceFunction.getSizePadded(surfaceOriginalSize,padding)[1] - lineSpace
 
-def parsePosition(textPosition,object) :
-    if textPosition and textPosition[0] == Attribute.CENTER :
-        textPosition = textPosition.copy()
-        textPosition[0] = (object.size[0] - len(object.text) * 8) / 2
+def parsePosition(textPosition,object,padding = [0,0]) :
+    if textPosition :
+        if textPosition[0] == Attribute.CENTER :
+            textPosition = textPosition.copy()
+            textPosition[0] = (object.size[0] - len(object.text) * 8) / 2
+        if textPosition[1] == Attribute.PADDED :
+            textPosition[1] = calculateTextPositionPaddedOnMenu(object.size,padding,object.fontSize)[1]
     return textPosition
