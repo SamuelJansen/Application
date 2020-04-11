@@ -51,7 +51,7 @@ class Event:
             ErrorEvent.ErrorEvent(None,
                 message = getObjectHitDebugText(object)
             )
-            
+
 
     def resolve(self,*args,**kargs):
         if self.status == eventFunction.Status.RESOLVED :

@@ -19,10 +19,13 @@ class Message(Modal.Modal):
         messageColor = None,
         noImage = False,
         surfaceColor = objectFunction.Attribute.MODAL_MESSAGE_COLOR,
+        onLeftClick = None,
         imagePath = None,
         audioPath = None
     ):
 
+        if not onLeftClick :
+            onLeftClick = objectFunction.defaultOnLeftClick
         father = object
         if not name :
             name = 'Message'
@@ -34,50 +37,66 @@ class Message(Modal.Modal):
         if not type :
             type = objectFunction.Type.MESSAGE
 
-        Modal.Modal.__init__(self,name,size,father,
-            type = type,
-            position = position,
-            text = message,
-            textPosition = textPosition,
-            fontSize = fontSize,
-            scale = scale,
-            padding = padding,
-            noImage = noImage,
-            surfaceColor = surfaceColor,
-            imagePath = imagePath,
-            audioPath = audioPath
-        )
-
-        # session = o\
-        #     deskPosition = sessionFunction.getDeskPosition(object.application)
-        #     deskSize = sessionFunction.getDeskSize(object.application)
-        #
-        # Modal.Modal.__init__(self,name,deskSize,father,
+        ###- Older version - whithougth modal covering desk
+        # Modal.Modal.__init__(self,name,size,father,
         #     type = type,
-        #     position = deskPosition,
+        #     position = position,
+        #     text = message,
+        #     textPosition = textPosition,
         #     fontSize = fontSize,
         #     scale = scale,
         #     padding = padding,
-        #     noImage = True,
+        #     noImage = noImage,
         #     surfaceColor = surfaceColor,
         #     imagePath = imagePath,
         #     audioPath = audioPath
         # )
         #
-        # messageFather = self
-        # containerFather = Container.Container(f'{name}.messageContainer',position,size,messageFather,
-        #     itemsDto = [],
-        #     text = message,
-        #     textPosition = textPosition,
-        #     fontSize = self.fontSize,
-        #     noImage = False,
-        #     imagePath = None,
-        #     audioPath = None
-        # )
+        # if messageButtonsDto :
+        #     containerName = None
+        #     containerFather = self
+        #     containerPosition = [0,containerFunction.Attribute.BOTTOM]
+        #     containerSize = ['100%',60]
+        #     Container.Container(containerName,containerPosition,containerSize,containerFather,
+        #         itemsDto = messageButtonsDto,
+        #         fontSize = self.fontSize,
+        #         noImage = True,
+        #         imagePath = None,
+        #         audioPath = None
+        #     )
+
+        ###- Newer version - whith modal covering desk
+        deskPosition = sessionFunction.getDeskPosition(object.application)
+        deskSize = sessionFunction.getDeskSize(object.application)
+
+        Modal.Modal.__init__(self,name,deskSize,father,
+            type = type,
+            position = deskPosition,
+            fontSize = fontSize,
+            scale = scale,
+            padding = padding,
+            noImage = True,
+            surfaceColor = surfaceColor,
+            onLeftClick = onLeftClick,
+            imagePath = imagePath,
+            audioPath = audioPath
+        )
+
+        messageFather = self
+        containerFather = Container.Container(f'{name}.messageContainer',position,size,messageFather,
+            itemsDto = [],
+            text = message,
+            textPosition = textPosition,
+            fontSize = self.fontSize,
+            noImage = False,
+            onLeftClick = onLeftClick,
+            imagePath = None,
+            audioPath = None
+        )
 
         if messageButtonsDto :
             containerName = None
-            containerFather = self
+            containerFather = containerFather
             containerPosition = [0,containerFunction.Attribute.BOTTOM]
             containerSize = ['100%',60]
             Container.Container(containerName,containerPosition,containerSize,containerFather,
@@ -87,8 +106,6 @@ class Message(Modal.Modal):
                 imagePath = None,
                 audioPath = None
             )
-
-        self.application.forcedUpdate()
 
     def calculateSize(self,size,father):
         if not size :

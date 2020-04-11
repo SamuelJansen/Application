@@ -27,7 +27,8 @@ class Surface(Object.Object):
         if not type :
             type = objectFunction.Type.USER_INTERFACE
         else :
-            print(f'type = {type}')
+            # print(f'type = {type}')
+            pass
 
         Object.Object.__init__(
             self,

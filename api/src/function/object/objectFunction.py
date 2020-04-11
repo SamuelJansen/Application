@@ -47,3 +47,7 @@ def getBlitOrder(object):
         return object.father.blitOrder + 1
     else :
         return Type.blitOrder[object.type] + Type.blitOrder[object.father.type]
+
+def defaultOnLeftClick(event) :
+    print(f'{event.object.name}.defaultOnLeftClick()')
+    pass

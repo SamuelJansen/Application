@@ -10,6 +10,7 @@ class Container(UserInterface.UserInterface):
         fontSize = None,
         noImage = False,
         surfaceColor = None,
+        onLeftClick = None,
         imagePath = None,
         audioPath = None
     ):
@@ -26,6 +27,7 @@ class Container(UserInterface.UserInterface):
             padding = None,
             noImage = noImage,
             surfaceColor = surfaceColor,
+            onLeftClick = onLeftClick,
             imagePath = imagePath,
             audioPath = audioPath
         )
