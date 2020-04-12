@@ -205,15 +205,15 @@ Now, lets do something that's usualy a pain in the ass
 
 It's usually time to cry, but just guive a look at the simplicity of it:
 
-<p align="center"><img alt="exitChessButton.png" src="https://i.pinimg.com/originals/55/17/7f/55177f101604bc0b39b4b322ef14dd4e.png" /></p>
+<p align="center"><img alt="exitChessButton.png" src="https://i.pinimg.com/originals/ca/af/12/caaf128380d1dee1b29499e56af1b37f.png" /></p>
 
-Done 😎
+Done 😎 
 
-Unbelivable ✨
+And yes. The modal is actually implemented as a new page. 
 
-And yes. The modal is actually implemented as a new page. No routes, no global states, nothing.
+No routes, no global states, nothing.
 
-It's just that simple.
+It's just that simple ✨
 
 ```
 import Message, ItemDto
@@ -262,6 +262,32 @@ def ok(event) :
 
     application = event.application
     application.close(event)
+```
+
+And in your Chess.py class you import it and pass it as the "onLeftClick" Button method
+
+```
+import Application, Button, exitChessButtonFunction
+
+class Chess(Application.Application):
+
+    def __init__(self,pathMannanger):
+
+        Application.Application.__init__(self,pathMannanger,floor=True)
+
+        button_name = 'exitChessButton'
+        button_position = [0,0]
+        button_size = [40,40]
+
+        button_father = self
+
+        Button.Button(
+            button_name,
+            button_position,
+            button_size,
+            button_father,
+            onLeftClick = exitChessButtonFunction.exitChessButtonFunction
+        )
 ```
 
 # The future 🌍
