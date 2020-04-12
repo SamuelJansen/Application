@@ -201,7 +201,7 @@ If you run ChessApplication.py, you should be able to see a big exit button on t
 
 Now, lets do something that's usualy a pain in the ass
 
-`After clicking on the exit button, a modal must appears with a message and two buttons: an "ok" and a "cancel"`
+`After clicking on the exit button, a modal must appears with a message and two buttons: "ok" and "cancel"`
 
 It's usually time to cry, but just guive a look at the simplicity of it:
 
