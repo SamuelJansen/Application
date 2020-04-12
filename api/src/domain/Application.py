@@ -1,6 +1,6 @@
 import pygame as pg
 
-import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer, CourseRepository, Keyboard
+import Frame, Object, Handler, Mouse, Screen, Session, MemoryOptimizer, Keyboard
 import applicationFunction, settingFunction, fatherFunction, objectFunction, imageFunction
 
 import time as now
@@ -20,7 +20,7 @@ class Application:
             pass
         self.update()
 
-    def __init__(self,pathMannanger,repository,
+    def __init__(self,pathMannanger,
         position = None,
         size = None,
         scaleRange = None,
@@ -28,6 +28,7 @@ class Application:
         aps = None,
         color = None,
         floor = True,
+        repository = None,
         imagePath = None,
         soundPath = None,
         settingsPath = None
@@ -37,17 +38,20 @@ class Application:
         self.pathMannanger = pathMannanger
         self.extension = self.pathMannanger.getExtension()
         self.name = self.pathMannanger.apiName
-        self.repository = repository.Repository(self)
+        if repository :
+            self.repository = repository.Repository(self)
+        else :
+            self.repository = None
         self.type = objectFunction.Type.APPLICATION
 
         self.getPaths(imagePath,soundPath,settingsPath)
 
-        possibleSize = self.getSize(settingFunction.getSettings(self.settingsPath,'size'))
-        possiblePosition = settingFunction.getSettings(self.settingsPath,'position')
-        possibleScaleRange = settingFunction.getSettings(self.settingsPath,'scale-range')
-        possibleFps = settingFunction.getSettings(self.settingsPath,'fps')
-        possibleAps = settingFunction.getSettings(self.settingsPath,'aps')
-        possibleColor = settingFunction.getSettings(self.settingsPath,'color')
+        possibleSize = self.getSize(self.pathMannanger.getSettings(self.settingsPath,'size'))
+        possiblePosition = self.pathMannanger.getSettings(self.settingsPath,'position')
+        possibleScaleRange = self.pathMannanger.getSettings(self.settingsPath,'scale-range')
+        possibleFps = self.pathMannanger.getSettings(self.settingsPath,'fps')
+        possibleAps = self.pathMannanger.getSettings(self.settingsPath,'aps')
+        possibleColor = self.pathMannanger.getSettings(self.settingsPath,'color')
 
         if position : self.position = position
         elif possiblePosition : self.position = possiblePosition
