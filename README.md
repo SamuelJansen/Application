@@ -13,7 +13,7 @@ C:\Users\my_user\path\path\path\all_my_git_projects
 
 <p align="center"><img alt="All projects directory" src="https://i.pinimg.com/originals/b3/c8/a4/b3c8a41f5b74aa86ef05b99f33ab2c68.png" /></p>
 
-Obs.: If needed, you can find mor information about GLobals here: https://github.com/SamuelJansen/Globals
+Obs.: If needed, you can find mor information about Globals here: https://github.com/SamuelJansen/Globals
 
 ## Put PathMannanger.py in your "main" api
 
