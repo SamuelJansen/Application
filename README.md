@@ -1,5 +1,5 @@
 # Application
-A desktop framework based on python 
+A desktop framework based on python.
 
 Example: Chess game
 
@@ -71,11 +71,13 @@ And the .run() method of this same class must be called in your main (see above)
 
 <p align="center"><img alt="Chess domain class" src="https://i.pinimg.com/originals/0f/ff/c4/0fffc4816db499719e0eee6005e576e5.png" /></p>
 
-By setting floor to true, you automatically gain a "background image". All you have to do is put this "background image"
+By setting floor to true, you automatically gain a "background image". All you have to do is put this "background image" in the correct directory with the correc name (see bellow)
 
-This "background image" must be a png and be named the following way: "YourApiName.floor.png"
+This "background image" must be a png and be named like this: "YourApiName.floor.png"
 
 In this example, it's "Chess.floor.png"
+
+the directory follows:
 
 ```
 the_whole_path_up_to_chess_project\Chess\api\src\resource\image\application floor\Chess.floor.png
@@ -103,19 +105,21 @@ the_whole_path_up_to_chess_project\Chess\api\src>pyton3 ChessApplication.py
 
 To quit, click on command prompt and hit `ctrl + c`
 
-## How does Application library woks?
+## How does Application library woks ❓
 
 Of course there won't be any chess game at all if run this so far. The game needs to be implemented.
 
 Let's start whit an exit button
 
-# UserInterface
+-----
+
+# UserInterface 
 
 "UserInterface" is a root from a bunch of Application classes
 
 "Button" is one of its manny implementetions
 
-# Make a Button
+## Make a Button
 
 import Button and instantiate it. Done
 
@@ -165,7 +169,7 @@ Again. There are flexible ways to do so. This is just an "easy path"
 
 <p align="center"><img alt="exitChessButton.png" src="https://i.pinimg.com/originals/5c/19/3b/5c193b858fb7dd3c25c55eb92eece431.png" /></p>
 
-Some important things:
+☎️ ❗️ ☎️ Some important things ☎️ ❗️ ☎️
 
 - Every object must have a unique name. There are ways to make it under the hood but... it's often nice to know their names
 
@@ -177,7 +181,7 @@ Some important things:
 
 - there is no state. Globals api (implemented in PathMannager class) takes care of it
 
-# Events
+## Events 🌈
 
 You might be wondering about the exit function itself
 
@@ -185,8 +189,86 @@ And yes. It's actualy that simple:
 
 - Any function recieves an event as input.
 
-- any event have the application on it.
+- any event have the application on it
 
-- the sky is not the limit.
+- the sky is not the limit 🚀
 
 <p align="center"><img alt="exitChessButton.png" src="https://i.pinimg.com/originals/46/1a/54/461a54b109c4910fe3f0f2df6d630258.png" /></p>
+
+If you run ChessApplication.py, you should be able to see a big exit button on the left upper corner of your screen.
+
+# The chalange.
+
+Now, lets do something that's usualy a pain in the ass
+
+`After clicking on the exit button, a modal must appears with a message and two buttons: an "ok" and a "cancel"`
+
+It's usually time to cry, but just guive a look at the simplicity of it:
+
+<p align="center"><img alt="exitChessButton.png" src="https://i.pinimg.com/originals/55/17/7f/55177f101604bc0b39b4b322ef14dd4e.png" /></p>
+
+Done 😎
+
+Unbelivable ✨
+
+And yes. The modal is actually implemented as a new page. No routes, no global states, nothing.
+
+It's just that simple.
+
+```
+import Message, ItemDto
+import textFunction
+
+messageName = 'exitChessMessageModal'
+
+def exitChessButtonFunction(event):
+
+    buttonPosition = ['fill','center']
+    buttonSize = [85,45]
+    messageFontSize = 18
+    textPosition = ['center','padded']
+
+    cancelButtonDto = ItemDto.ItemDto('cancel',
+        position = buttonPosition,
+        size = buttonSize,
+        text = 'Cancel',
+        textPosition = textPosition,
+        onLeftClick = cancel
+    )
+    okButtonDto = ItemDto.ItemDto('ok',
+        position = buttonPosition,
+        size = buttonSize,
+        text = 'Ok',
+        textPosition = textPosition,
+        onLeftClick = ok
+    )
+
+    messageButtonsDto = [cancelButtonDto,okButtonDto]
+    message = 'Do you want to exit the game?'
+
+    Message.Message(event.object,message,
+        name = messageName,
+        messageButtonsDto = messageButtonsDto,
+        fontSize = messageFontSize
+    )
+
+def cancel(event) :
+    message = event.application.findObjectByName(messageName)
+    message.close()
+
+def ok(event) :
+    message = event.application.findObjectByName(messageName)
+    message.close()
+
+    application = event.application
+    application.close(event)
+```
+
+# The future 🌍
+
+I'll be implmenting more of this Chess example code on this other repository: https://github.com/SamuelJansen/Chess/tree/develop
+
+Feel free to navigate throught the Application library source code here
+
+Cheers
+
