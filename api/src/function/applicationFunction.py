@@ -11,7 +11,7 @@ class Attribute:
         'scaleRange' : 1000,
         'fps' : 30,
         'aps' : 60,
-        'color' : {'white':(255,255,255)}
+        'color' : {'white':(255,255,255),'background':(255,255,255)}
     }
 
 

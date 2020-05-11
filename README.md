@@ -15,18 +15,18 @@ C:\Users\my_user\path\path\path\all_my_git_projects
 
 Obs.: If needed, you can find mor information about Globals here: https://github.com/SamuelJansen/Globals
 
-## Put PathMannanger.py in your "main" api
+## Put Globals.py in your "main" api
 
 On Chess/api/src/ChessApplication.py (the main class that will consume Application library), 
-you put the PathMannanger.py file following this path tree:
+you put the Globals.py file following this path tree:
 
 ```
-C:\Users\my_user\path\path\path\all_my_git_projects\Chess\api\src\domain\control\PathMannanger.py
+C:\Users\my_user\path\path\path\all_my_git_projects\Chess\api\src\domain\control\Globals.py
 ```
 
 Once again, "chess main class" needs to be in src directory.
 
-<p align="center"><img alt="PathMannanger file in Chess/api/src/domain/control directory" src="https://i.pinimg.com/originals/e6/62/cb/e662cb3f41fecba77572de839a5e7a9f.png" /></p>
+<p align="center"><img alt="Globals file in Chess/api/src/domain/control directory" src="https://i.pinimg.com/originals/e6/62/cb/e662cb3f41fecba77572de839a5e7a9f.png" /></p>
 
 ## Put this code in "your ChessApplication.py" file (the main class of your api)
 
@@ -34,18 +34,18 @@ Put the following code right on top of ChessApplication class.
 
 ```
 if __name__ == '__main__' :
-    from domain.control import PathMannanger
-    pathMannanger = PathMannanger.PathMannanger(printStatus = True)
+    from domain.control import Globals
+    globals = Globals.Globals(printStatus = True)
 
     import Chess
-    Chess.Chess(pathMannanger).run()
+    Chess.Chess(globals).run()
 ```
 
 Notice the .run() method bein called in your main class. It's important.
 
 <p align="center"><img alt="Chess api main file" src="https://i.pinimg.com/originals/6b/32/ff/6b32ffba3ecc48c232a9d9543f38223b.png" /></p>
 
-By doing so, whenever you run you api in command prompt, you should be able to see the pathMannanger import path tree like this:
+By doing so, whenever you run you api in command prompt, you should be able to see the globals import path tree like this:
 
 <p align="center"><img alt="Chess api main file" src="https://i.pinimg.com/originals/37/c7/6a/37c76addfcc511a00daa7e4eecef7d9e.png" /></p>
 
@@ -60,9 +60,9 @@ import Application
 
 class Chess(Application.Application):
 
-    def __init__(self,pathMannanger):
+    def __init__(self,globals):
 
-        Application.Application.__init__(self,pathMannanger,floor=True)
+        Application.Application.__init__(self,globals,floor=True)
 ```
 
 Be a cool kid. Only one class in your project can inherit from Application.
@@ -130,9 +130,9 @@ import Application, Button
 
 class Chess(Application.Application):
 
-    def __init__(self,pathMannanger):
+    def __init__(self,globals):
 
-        Application.Application.__init__(self,pathMannanger,floor=True)
+        Application.Application.__init__(self,globals,floor=True)
 
         button_name = 'exitChessButton'
         button_position = [0,0]
@@ -271,9 +271,9 @@ import Application, Button, exitChessButtonFunction
 
 class Chess(Application.Application):
 
-    def __init__(self,pathMannanger):
+    def __init__(self,globals):
 
-        Application.Application.__init__(self,pathMannanger,floor=True)
+        Application.Application.__init__(self,globals,floor=True)
 
         button_name = 'exitChessButton'
         button_position = [0,0]

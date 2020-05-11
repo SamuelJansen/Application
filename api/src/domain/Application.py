@@ -20,7 +20,7 @@ class Application:
             pass
         self.update()
 
-    def __init__(self,pathMannanger,
+    def __init__(self,globals,
         position = None,
         size = None,
         scaleRange = None,
@@ -35,9 +35,9 @@ class Application:
     ):
 
         self.application = self.tutor = self.father = fatherFunction.absoluteFather(self)
-        self.pathMannanger = pathMannanger
-        self.extension = self.pathMannanger.getExtension()
-        self.name = self.pathMannanger.apiName
+        self.globals = globals
+        self.extension = self.globals.getExtension()
+        self.name = self.globals.apiName
         if repository :
             self.repository = repository.Repository(self)
         else :
@@ -46,20 +46,21 @@ class Application:
 
         self.getPaths(imagePath,soundPath,settingsPath)
 
-        possibleSize = self.getSize(self.pathMannanger.getSettings(self.settingsPath,'size'))
-        possiblePosition = self.pathMannanger.getSettings(self.settingsPath,'position')
-        possibleScaleRange = self.pathMannanger.getSettings(self.settingsPath,'scale-range')
-        possibleFps = self.pathMannanger.getSettings(self.settingsPath,'fps')
-        possibleAps = self.pathMannanger.getSettings(self.settingsPath,'aps')
-        possibleColor = self.pathMannanger.getSettings(self.settingsPath,'color')
+        possibleSize = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'size')
+        possiblePosition = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'position')
+        possibleScaleRange = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'scale-range')
+        possibleFps = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'fps')
+        possibleAps = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'aps')
+        possibleColor = self.globals.getSettingFromSettingFilePathAndKeyPair(self.settingsPath,'color')
+
+        if not size :
+            if possibleSize : size = possibleSize
+            else : size = applicationFunction.Attribute.DEFAULT['size']
+        self.size = self.getSize(size)
 
         if position : self.position = position
         elif possiblePosition : self.position = possiblePosition
         else : self.position = applicationFunction.Attribute.DEFAULT['position']
-
-        if size : self.size = size
-        elif possibleSize : self.size = possibleSize
-        else : self.size = applicationFunction.Attribute.DEFAULT['size']
 
         if scaleRange : self.scaleRange = scaleRange
         elif possibleScaleRange : self.scaleRange = possibleScaleRange
@@ -170,11 +171,11 @@ class Application:
         self.soundPath = soundPath
         self.settingsPath = settingsPath
         if not self.imagePath :
-            self.imagePath = f'{self.pathMannanger.getApiPath(self.name)}resource\\image\\'
+            self.imagePath = f'{self.globals.getApiPath(self.name)}resource\\image\\'
         if not self.soundPath :
-            self.soundPath = f'{self.pathMannanger.getApiPath(self.name)}resource\\sound\\'
+            self.soundPath = f'{self.globals.getApiPath(self.name)}resource\\sound\\'
         if not self.settingsPath :
-            self.settingsPath = f'{self.pathMannanger.getApiPath(self.name)}resource\\{self.name}.{self.extension}'
+            self.settingsPath = f'{self.globals.getApiPath(self.name)}resource\\{self.name}.{self.extension}'
 
     def getFloor(self):
         if self.floor :
@@ -233,7 +234,7 @@ class Application:
 
     def updateScreen(self):
         if self.screen.mustUpdate :
-            self.screen.surface.fill(self.color['backgroundColor'])
+            self.screen.surface.fill(self.color['background'])
             self.screen.update()
         ###- keep it below
         ###- self.updatePosition(self.position)
