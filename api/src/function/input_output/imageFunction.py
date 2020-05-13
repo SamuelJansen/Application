@@ -40,7 +40,7 @@ def getImagePath(object):
     return f'{object.application.imagePath}{object.type}//'
 
 def getImageFileNames(imagesPath,imageExtension) :
-    return settingFunction.getFileNames(imagesPath,imageExtension)
+    return settingFunction.getFileNameList(imagesPath,imageExtension)
 
 def getNoImage(size,aplication,
     color = objectFunction.Attribute.NO_IMAGE_COLOR

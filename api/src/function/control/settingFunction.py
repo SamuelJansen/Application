@@ -1,7 +1,7 @@
 import pygame as pg
 import os
 
-def getFileNames(path,fileExtension) :
+def getSortedFileNames(path,fileExtension) :
     fileNames = []
     names = os.listdir(path)
     for name in names :
